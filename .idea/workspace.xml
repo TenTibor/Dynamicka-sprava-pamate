@@ -29,7 +29,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0648cfe-21a8-41b2-8658-5bed2a509f4b" name="Default Changelist" comment="Removed main_head">
+    <list default="true" id="d0648cfe-21a8-41b2-8658-5bed2a509f4b" name="Default Changelist" comment="Test2, memory_init, find_free_block">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -97,7 +97,7 @@
       <workItem from="1614685222543" duration="778000" />
       <workItem from="1614702149047" duration="1990000" />
       <workItem from="1614801190291" duration="558000" />
-      <workItem from="1614803157840" duration="2522000" />
+      <workItem from="1614803157840" duration="5440000" />
     </task>
     <task id="LOCAL-00001" summary="Removed spacing and trash comments">
       <created>1614803325979</created>
@@ -113,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614803542471</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Test2, memory_init, find_free_block">
+      <created>1614806004040</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1614806004040</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,7 +140,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Removed spacing and trash comments" />
     <MESSAGE value="Removed main_head" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed main_head" />
+    <MESSAGE value="Test2, memory_init, find_free_block" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test2, memory_init, find_free_block" />
   </component>
   <component name="WindowStateProjectService">
     <state x="520" y="243" key="Github.ShareDialog" timestamp="1614550943024">
@@ -144,28 +152,28 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="399" y="43" key="Github.UntrackedFilesDialog/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614550955631" />
-    <state width="1281" height="132" key="GridCell.Tab.0.bottom" timestamp="1614805516045">
+    <state width="1281" height="132" key="GridCell.Tab.0.bottom" timestamp="1614808458800">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1281" height="132" key="GridCell.Tab.0.bottom/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614805516045" />
+    <state width="1281" height="132" key="GridCell.Tab.0.bottom/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614808458800" />
     <state width="1345" height="244" key="GridCell.Tab.0.bottom/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614702253582" />
     <state width="1281" height="193" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="132" key="GridCell.Tab.0.center" timestamp="1614805516045">
+    <state width="1281" height="132" key="GridCell.Tab.0.center" timestamp="1614808458800">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1281" height="132" key="GridCell.Tab.0.center/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614805516045" />
+    <state width="1281" height="132" key="GridCell.Tab.0.center/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614808458800" />
     <state width="1345" height="244" key="GridCell.Tab.0.center/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614702253582" />
     <state width="1281" height="193" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="132" key="GridCell.Tab.0.left" timestamp="1614805516045">
+    <state width="1281" height="132" key="GridCell.Tab.0.left" timestamp="1614808458800">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1281" height="132" key="GridCell.Tab.0.left/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614805516045" />
+    <state width="1281" height="132" key="GridCell.Tab.0.left/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614808458800" />
     <state width="1345" height="244" key="GridCell.Tab.0.left/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614702253582" />
     <state width="1281" height="193" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="132" key="GridCell.Tab.0.right" timestamp="1614805516045">
+    <state width="1281" height="132" key="GridCell.Tab.0.right" timestamp="1614808458800">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1281" height="132" key="GridCell.Tab.0.right/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614805516045" />
+    <state width="1281" height="132" key="GridCell.Tab.0.right/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614808458800" />
     <state width="1345" height="244" key="GridCell.Tab.0.right/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614702253582" />
     <state width="1281" height="193" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
     <state width="1281" height="139" key="GridCell.Tab.1.bottom" timestamp="1614552090430">
