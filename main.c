@@ -3,27 +3,23 @@
 #include <time.h>
 #include <stdlib.h>
 
-void *memory;
+void *memoryStart;
 
 struct BLOCK_HEAD {
     int size;
     struct BLOCK_HEAD *next;
 };
 
-struct MAIN_HEAD {
-    struct BLOCK_HEAD *free_block;
-};
-
 void memory_init(void *ptr, unsigned int size) {
     memset(ptr, 0, size);
 
-    memory = ptr;
-    struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) ptr;
+    memoryStart = ptr;
+    struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) ptr;
 
-    struct BLOCK_HEAD *firstFreeBlock = (struct BLOCK_HEAD *) ((char *) ptr + sizeof(struct MAIN_HEAD));
-    memory_head->free_block = firstFreeBlock;
+    struct BLOCK_HEAD *firstFreeBlock = (struct BLOCK_HEAD *) ((char *) ptr + sizeof(struct BLOCK_HEAD));
+    memory_head->next = firstFreeBlock;
 
-    int freeSize = ((int) size) - sizeof(struct MAIN_HEAD);
+    int freeSize = ((int) size) - sizeof(struct BLOCK_HEAD);
     firstFreeBlock->size = freeSize * -1;
     firstFreeBlock->next = NULL;
 }
@@ -32,10 +28,10 @@ void memory_init(void *ptr, unsigned int size) {
 void *find_free_block(int size) {
 
     // Start searching from the beginning
-    struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) memory;
+    struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) memoryStart;
 
-    struct BLOCK_HEAD *bestBlock = memory_head->free_block;
-    struct BLOCK_HEAD *actualBlock = memory_head->free_block;
+    struct BLOCK_HEAD *bestBlock = memory_head->next;
+    struct BLOCK_HEAD *actualBlock = memory_head->next;
     unsigned int bestBlockSize = 0;
 
     while (actualBlock != NULL) {
@@ -64,10 +60,10 @@ void *find_free_block(int size) {
 void *memory_alloc(unsigned int size) {
     unsigned int allocateSize = size;
     // Create new block
-    struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) memory;
+    struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) memoryStart;
 
     // Return null if free block does not exist
-    if (memory_head->free_block == NULL) {
+    if (memory_head->next == NULL) {
         return NULL;
     }
 
@@ -96,11 +92,11 @@ void *memory_alloc(unsigned int size) {
         //// Edit connection between blocks
 
         // If best free block we found is first block
-        if (memory_head->free_block == free_block) {
-            memory_head->free_block = new_free_block;
+        if (memory_head->next == free_block) {
+            memory_head->next = new_free_block;
         } else {
             // Else search that block to end while we dont find that free block
-            struct BLOCK_HEAD *actual_block = (struct BLOCK_HEAD *) memory_head->free_block;
+            struct BLOCK_HEAD *actual_block = (struct BLOCK_HEAD *) memory_head->next;
             while (actual_block != free_block && actual_block->next != NULL) {
                 if (actual_block != NULL && actual_block->next == free_block) {
                     // If  we found that new free block, we set pointer of actual block to that new and we change linked list to what we need
@@ -114,10 +110,10 @@ void *memory_alloc(unsigned int size) {
         // Else if free block have same size like we need
 
         // If best free block we found is first block
-        if (memory_head->free_block == free_block) {
-            memory_head->free_block = free_block->next;
+        if (memory_head->next == free_block) {
+            memory_head->next = free_block->next;
         } else {
-            struct BLOCK_HEAD *actual_block = (struct BLOCK_HEAD *) memory_head->free_block;
+            struct BLOCK_HEAD *actual_block = (struct BLOCK_HEAD *) memory_head->next;
             while (actual_block != free_block && actual_block->next != NULL) {
                 if (actual_block != NULL && actual_block->next == free_block) {
                     actual_block->next = free_block->next;
@@ -154,16 +150,16 @@ int memory_free(void *valid_ptr) {
         block->next = block_after_head->next;
         block->size += block_after_head->size - sizeof(struct BLOCK_HEAD);
 
-        if (((struct MAIN_HEAD *) memory)->free_block == block_after_head) {
-            ((struct MAIN_HEAD *) memory)->free_block = block;
+        if (((struct BLOCK_HEAD *) memoryStart)->next == block_after_head) {
+            ((struct BLOCK_HEAD *) memoryStart)->next = block;
         }
     }
 
 
     // Find block before this block
     struct BLOCK_HEAD *block_before_head = NULL;
-    struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) memory;
-    struct BLOCK_HEAD *check_block = memory_head->free_block;
+    struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) memoryStart;
+    struct BLOCK_HEAD *check_block = memory_head->next;
 
     while (check_block != NULL && check_block->next != NULL && block_before_head == NULL) {
         // Predict if next block is block we free now
@@ -182,9 +178,9 @@ int memory_free(void *valid_ptr) {
     }
 
     // Edit list of free blocks
-    if (((struct MAIN_HEAD *) memory)->free_block != block) {
-        block->next = ((struct MAIN_HEAD *) memory)->free_block;
-        ((struct MAIN_HEAD *) memory)->free_block = block;
+    if (((struct BLOCK_HEAD *) memoryStart)->next != block) {
+        block->next = ((struct BLOCK_HEAD *) memoryStart)->next;
+        ((struct BLOCK_HEAD *) memoryStart)->next = block;
     }
 
     return 0;
@@ -192,8 +188,8 @@ int memory_free(void *valid_ptr) {
 
 // If pointer is valid return 1
 int memory_check(void *ptr) {
-    struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) memory;
-    struct BLOCK_HEAD *actual_block = memory_head->free_block;
+    struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) memoryStart;
+    struct BLOCK_HEAD *actual_block = memory_head->next;
 
     // Check every free block and return 0 if we found that pointer
     while (actual_block != NULL) {
@@ -209,7 +205,7 @@ void test1() {
     char region[memory_size];
     memory_init(&region, memory_size);
     printf("header size is %d\n", sizeof(struct BLOCK_HEAD));
-    printf("starter poinet is %d\n", memory);
+    printf("starter poinet is %d\n", memoryStart);
 
     char *pointer1 = (char *) memory_alloc(15);
     char *pointer2 = (char *) memory_alloc(40);
