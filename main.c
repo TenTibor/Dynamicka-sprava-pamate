@@ -9,14 +9,10 @@ void *memory;
 struct BLOCK_HEAD {
     int size;
     struct BLOCK_HEAD *next;
-//    unsigned int size; // mozno bude lepsie davat na posledne miesto znak a budeme vediet kde je koniec...
-//    Dame si for czklus a najdeme koniec... zyiskame ye budu hlavickz mensie
-
 };
 
 
 struct MAIN_HEAD {
-    int size;
     struct BLOCK_HEAD *free_block;
 };
 
@@ -36,7 +32,7 @@ void memory_init(void *ptr, unsigned int size) {
 }
 
 // Find best free block using best fit
-void *find_free_block(unsigned int size) {
+void *find_free_block(int size) {
 
     // Start searching from the beginning
     struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) memory;
@@ -186,9 +182,6 @@ int memory_free(void *valid_ptr) {
     }
 
 
-
-
-
     // Find block before this block
     struct BLOCK_HEAD *block_before_head = NULL;
     struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) memory;
@@ -196,7 +189,7 @@ int memory_free(void *valid_ptr) {
 //    printf("First free block is %d and his next is %d\n", check_block, check_block->next);
 
 
-    while (check_block->next != NULL && block_before_head == NULL) {
+    while (check_block != NULL && check_block->next != NULL && block_before_head == NULL) {
         // Predict if next block is block we free now
         int predict = ((int) check_block + check_block->size * -1 + sizeof(struct BLOCK_HEAD));
         if (predict == block) {
@@ -255,14 +248,11 @@ void test1() {
     char *pointer5 = (char *) memory_alloc(15);
     char *pointer6 = (char *) memory_alloc(15);
     char *pointer7 = (char *) memory_alloc(15);
+    memory_free(pointer3);
     memory_free(pointer2);
-//    printf("Freeol som bejbz\n");
+    memory_free(pointer4);
+    memory_free(pointer5);
     char *pointer8 = (char *) memory_alloc(50);
-    if (memory_check(pointer2))
-        printf("Its true");
-    else
-        printf("Its kokotina");
-
 }
 
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
