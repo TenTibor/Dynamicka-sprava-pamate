@@ -13,26 +13,27 @@ struct BLOCK_HEAD {
 void memory_init(void *ptr, unsigned int size) {
     memset(ptr, 0, size);
 
+    // Find first free block
     memoryStart = ptr;
     struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) ptr;
+    struct BLOCK_HEAD *firstBlock = (struct BLOCK_HEAD *) ((char *) ptr + sizeof(struct BLOCK_HEAD));
+    memory_head->next = firstBlock;
 
-    struct BLOCK_HEAD *firstFreeBlock = (struct BLOCK_HEAD *) ((char *) ptr + sizeof(struct BLOCK_HEAD));
-    memory_head->next = firstFreeBlock;
-
+    // Set first block
     int freeSize = ((int) size) - sizeof(struct BLOCK_HEAD);
-    firstFreeBlock->size = freeSize * -1;
-    firstFreeBlock->next = NULL;
+    firstBlock->size = freeSize * -1; // Set block as free
+    firstBlock->next = NULL;
 }
 
 // Find best free block using best fit
 void *find_free_block(int size) {
 
-    // Start searching from the beginning
-    struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) memoryStart;
+    // Start searching from the beginning of free block list
+    struct BLOCK_HEAD *startOfMemory = (struct BLOCK_HEAD *) memoryStart;
 
-    struct BLOCK_HEAD *bestBlock = memory_head->next;
-    struct BLOCK_HEAD *actualBlock = memory_head->next;
-    unsigned int bestBlockSize = 0;
+    struct BLOCK_HEAD *bestBlock = startOfMemory->next;
+    struct BLOCK_HEAD *actualBlock = startOfMemory->next;
+    int bestBlockSize = 0;
 
     while (actualBlock != NULL) {
         //Is this smallest good block?
@@ -48,13 +49,11 @@ void *find_free_block(int size) {
         actualBlock = actualBlock->next;
     }
 
-    // If smallest block size is big enough for size we need
-    if (bestBlockSize >= size) {
+    // Last check if smallest block size is big enough for size we need
+    if (bestBlockSize >= size)
         return bestBlock;
-    } else {
+    else
         return NULL;
-    }
-
 }
 
 void *memory_alloc(unsigned int size) {
@@ -69,7 +68,6 @@ void *memory_alloc(unsigned int size) {
 
     // Size of new block
     size += sizeof(struct BLOCK_HEAD);
-
 
     // Find best free block with best fit
     struct BLOCK_HEAD *free_block = (struct BLOCK_HEAD *) find_free_block(size);
@@ -134,13 +132,14 @@ void *memory_alloc(unsigned int size) {
 
 int memory_free(void *valid_ptr) {
 
-    // Find block to free
+    // Find block to free by pointer
     struct BLOCK_HEAD *block = (struct BLOCK_HEAD *) ((char *) valid_ptr - sizeof(struct BLOCK_HEAD));
+
+    // Check if block is not already free
     if (block->size < 0) {
-        printf("Block is already free");
         return 1;
     }
-    block->size = block->size * -1;
+    block->size *= -1;
 
     // Find block after this block
     struct BLOCK_HEAD *block_after_head = (struct BLOCK_HEAD *) ((int) block + block->size * -1 +
@@ -220,6 +219,24 @@ void test1() {
     memory_free(pointer4);
     memory_free(pointer5);
     char *pointer8 = (char *) memory_alloc(50);
+}
+
+void test2() {
+    int memory_size = 600;
+    char region[memory_size];
+    memory_init(&region, memory_size);
+    char *pointer1 = (char *) memory_alloc(15);
+    char *pointer2 = (char *) memory_alloc(40);
+    char *pointer3 = (char *) memory_alloc(20);
+    char *pointer4 = (char *) memory_alloc(15);
+    if (memory_check(pointer3)){
+        printf("TRUE\n");
+    } else printf("False\n");
+
+    memory_free(pointer3);
+    if (memory_check(pointer3)){
+        printf("TRUE\n");
+    } else printf("False\n");
 }
 
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
