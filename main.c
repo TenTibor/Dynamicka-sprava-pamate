@@ -3,14 +3,12 @@
 #include <time.h>
 #include <stdlib.h>
 
-
 void *memory;
 
 struct BLOCK_HEAD {
     int size;
     struct BLOCK_HEAD *next;
 };
-
 
 struct MAIN_HEAD {
     struct BLOCK_HEAD *free_block;
@@ -21,7 +19,6 @@ void memory_init(void *ptr, unsigned int size) {
 
     memory = ptr;
     struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) ptr;
-//    memory_head->size = size;
 
     struct BLOCK_HEAD *firstFreeBlock = (struct BLOCK_HEAD *) ((char *) ptr + sizeof(struct MAIN_HEAD));
     memory_head->free_block = firstFreeBlock;
@@ -45,13 +42,10 @@ void *find_free_block(int size) {
         //Is this smallest good block?
         if (actualBlock->size < 0) { // If block is free
             int thisSize = actualBlock->size * -1;
-//            printf("Block %d have size %d\n", actualBlock, thisSize);
             if (thisSize >= size && (thisSize < bestBlockSize || bestBlockSize == 0)) {
-//                printf(" %d < %d for %d\n", thisSize, bestBlockSize, size);
                 // Yes, it is best block for now
                 bestBlock = actualBlock;
                 bestBlockSize = thisSize;
-//                printf("Best block is %d with size %d\n", bestBlock, bestBlockSize);
             }
         }
         // Go to next block
@@ -76,9 +70,9 @@ void *memory_alloc(unsigned int size) {
     if (memory_head->free_block == NULL) {
         return NULL;
     }
+
     // Size of new block
     size += sizeof(struct BLOCK_HEAD);
-//    size &= ~(1); // 1 means that this block will not be free
 
 
     // Find best free block with best fit
@@ -137,22 +131,9 @@ void *memory_alloc(unsigned int size) {
     struct BLOCK_HEAD *allocated_block = free_block;
     allocated_block->size = allocateSize;
     allocated_block->next = NULL;
-//    int *footer = (int *) ((char *) allocated_block + size);
-//    *footer = size | 1;
-
-//    printf("allocoval som velkost %d na %d adrese\n", size, allocated_block);
 
     // return pointer
     return (char *) allocated_block + sizeof(*allocated_block);
-
-
-//    printf("this is first pointer %d\n", *ptr);
-//
-//    ptr->next = (ptr + size + sizeof(HEAD));
-//    printf("Next adresa [%d]\n");
-//
-//    return ptr + sizeof(HEAD);
-    //ked alokujes, tak vracias adresu alokacie.. Vracias adresu na zaciatok alokacie, nie hlavicky
 }
 
 int memory_free(void *valid_ptr) {
@@ -164,9 +145,6 @@ int memory_free(void *valid_ptr) {
         return 1;
     }
     block->size = block->size * -1;
-
-//        int *end_header = (char *) block + block->size - sizeof(unsigned int);
-//    *end_header = block->size;
 
     // Find block after this block
     struct BLOCK_HEAD *block_after_head = (struct BLOCK_HEAD *) ((int) block + block->size * -1 +
@@ -186,8 +164,6 @@ int memory_free(void *valid_ptr) {
     struct BLOCK_HEAD *block_before_head = NULL;
     struct MAIN_HEAD *memory_head = (struct MAIN_HEAD *) memory;
     struct BLOCK_HEAD *check_block = memory_head->free_block;
-//    printf("First free block is %d and his next is %d\n", check_block, check_block->next);
-
 
     while (check_block != NULL && check_block->next != NULL && block_before_head == NULL) {
         // Predict if next block is block we free now
@@ -197,17 +173,12 @@ int memory_free(void *valid_ptr) {
         }
         check_block = check_block->next;
     }
-//    printf("I found block %d\n", block_before_head);
 
     // If we found block before
     if (block_before_head != NULL && block_before_head->size < 0) {
-//        printf("This block is free with size %d\n", block_before_head->size);
         block_before_head->size += block->size - sizeof(struct BLOCK_HEAD);
         block_before_head->next = block->next;
         block = block_before_head;
-
-//        end_header = (char *) block_before_head + block_before_head->size - sizeof(unsigned int);
-//        *end_header = block->size;
     }
 
     // Edit list of free blocks
