@@ -249,6 +249,11 @@ int memory_check(void *ptr) {
 //}
 //
 
+void printBlockUsage(int memory_size, float mallocated_count, float allocated_count) {
+    float blockUsage = ((float) mallocated_count / (float) allocated_count) * 100;
+    printf("Size of memory: %d bytes\nAllocated blocks: %.2f%%\n", memory_size, blockUsage);
+}
+
 // Pridavanie rovnkakych blokov malej velkosti
 void test1() {
     int memory_size = 200;
@@ -266,9 +271,9 @@ void test1() {
         }
     }
 
-    float blockUsage = ((float) mallocated_count / (float) allocated_count) * 100;
-    printf("Size of memory: %d bytes\nAllocated blocks: %.2f%%\n", memory_size, blockUsage);
+    printBlockUsage(memory_size, mallocated_count, allocated_count);
 }
+
 
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
                  int testFragDefrag) {
