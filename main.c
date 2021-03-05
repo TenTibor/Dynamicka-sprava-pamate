@@ -274,6 +274,27 @@ void test1() {
     printBlockUsage(memorySize, mallocatedPart, allocatedPart);
 }
 
+void test2() {
+    srand(time(0));
+    int memorySize = 200;
+    char region[memorySize];
+    char *pointers[1000];
+    float allocatedPart = 0;
+    float mallocatedPart = 0;
+    memory_init(&region, memorySize);
+
+    for (int i = 0; i < 12; ++i) {
+        allocatedPart++;
+        int randomSize = (rand() % (24 - 8 + 1)) + 8;;
+        pointers[i] = memory_alloc(randomSize);
+        if (pointers[i]) {
+            mallocatedPart++;
+        }
+    }
+
+    printBlockUsage(memorySize, mallocatedPart, allocatedPart);
+}
+
 
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
                  int testFragDefrag) {
@@ -346,6 +367,6 @@ void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int m
 // Testovace staci skusat na 1000bitov
 
 int main() {
-    test1();
+    test2();
     return 0;
 }
