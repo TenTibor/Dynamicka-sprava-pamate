@@ -123,11 +123,13 @@ void *memory_alloc(unsigned int size) {
     allocatedBlock->next = NULL;
 
     // return pointer
+//    printf("Malloc> %d\n", allocatedBlock);
+//    printf("Malloc2> %d\n", (char *) allocatedBlock + sizeof(*allocatedBlock));
     return (char *) allocatedBlock + sizeof(*allocatedBlock);
 }
 
 int memory_free(void *valid_ptr) {
-
+//    printf("Free: %d\n", valid_ptr);
     // Find block to free with pointer
     struct BLOCK_HEAD *blockToFree = (struct BLOCK_HEAD *) ((char *) valid_ptr - sizeof(struct BLOCK_HEAD));
 
@@ -139,8 +141,10 @@ int memory_free(void *valid_ptr) {
     blockToFree->size *= -1; // Set size to negative number what means, block is now free
 
     // Check if next block is free. If block is free, connect it to this block
-    struct BLOCK_HEAD *blockAfter = (struct BLOCK_HEAD *) ((int) blockToFree + blockToFree->size * -1 +
+    struct BLOCK_HEAD *blockAfter = (struct BLOCK_HEAD *) ((char *) blockToFree + blockToFree->size * -1 +
                                                            sizeof(struct BLOCK_HEAD));
+//    printf("Free2: %d\n", blockAfter);
+
     if (blockAfter->size < 0) { // if block is free
         blockToFree->next = blockAfter->next;
         blockToFree->size += blockAfter->size - sizeof(struct BLOCK_HEAD);
@@ -159,7 +163,7 @@ int memory_free(void *valid_ptr) {
 
     while (actualBlock != NULL && actualBlock->next != NULL && blockBefore == NULL) {
         // Predict if next blocks pointer is pointer we free now
-        int predict = ((int) actualBlock + actualBlock->size * -1 + sizeof(struct BLOCK_HEAD));
+        char *predict = ((char *) actualBlock + actualBlock->size * -1 + sizeof(struct BLOCK_HEAD));
         if (predict == blockToFree) {
             blockBefore = actualBlock;
         }
@@ -189,7 +193,7 @@ int memory_check(void *ptr) {
 
     // Check every free block and return 0 if we found that pointer
     while (actual_block != NULL) {
-        if ((int) actual_block + sizeof(struct BLOCK_HEAD) == ptr)
+        if ((char *) actual_block + sizeof(struct BLOCK_HEAD) == ptr)
             return 0;
         actual_block = actual_block->next;
     }
@@ -205,7 +209,7 @@ void test1() {
 
     char *pointer1 = (char *) memory_alloc(15);
     char *pointer2 = (char *) memory_alloc(40);
-    printf("Pointer 2 is %d\n", pointer2);
+//    printf("Pointer 2 is %d\n", pointer2);
     char *pointer3 = (char *) memory_alloc(20);
     char *pointer4 = (char *) memory_alloc(15);
     char *pointer5 = (char *) memory_alloc(15);
@@ -234,6 +238,16 @@ void test2() {
     if (memory_check(pointer3)) {
         printf("TRUE\n");
     } else printf("False\n");
+}
+
+void test3() {
+    int memory_size = 600;
+    char region[memory_size];
+    memory_init(&region, memory_size);
+
+    char *pointer1 = (char *) memory_alloc(15);
+    printf("%d\n", pointer1);
+    memory_free(pointer1);
 }
 
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,

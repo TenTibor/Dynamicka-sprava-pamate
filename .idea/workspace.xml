@@ -29,7 +29,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0648cfe-21a8-41b2-8658-5bed2a509f4b" name="Default Changelist" comment="Refactro of memory_alloc">
+    <list default="true" id="d0648cfe-21a8-41b2-8658-5bed2a509f4b" name="Default Changelist" comment="Refactro of memory_free">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -68,11 +68,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -97,7 +92,10 @@
       <workItem from="1614685222543" duration="778000" />
       <workItem from="1614702149047" duration="1990000" />
       <workItem from="1614801190291" duration="558000" />
-      <workItem from="1614803157840" duration="7935000" />
+      <workItem from="1614803157840" duration="8580000" />
+      <workItem from="1614890325283" duration="13000" />
+      <workItem from="1614895458574" duration="95000" />
+      <workItem from="1614962061502" duration="1467000" />
     </task>
     <task id="LOCAL-00001" summary="Removed spacing and trash comments">
       <created>1614803325979</created>
@@ -127,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614808839366</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Refactro of memory_free">
+      <created>1614811130950</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1614811130950</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,13 +148,15 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Removed spacing and trash comments" />
     <MESSAGE value="Removed main_head" />
     <MESSAGE value="Test2, memory_init, find_free_block" />
     <MESSAGE value="Refactro of memory_alloc" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactro of memory_alloc" />
+    <MESSAGE value="Refactro of memory_free" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactro of memory_free" />
   </component>
   <component name="WindowStateProjectService">
     <state x="520" y="243" key="Github.ShareDialog" timestamp="1614550943024">
@@ -160,28 +167,28 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="399" y="43" key="Github.UntrackedFilesDialog/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614550955631" />
-    <state width="1281" height="132" key="GridCell.Tab.0.bottom" timestamp="1614811121083">
+    <state width="1281" height="163" key="GridCell.Tab.0.bottom" timestamp="1614966044570">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1281" height="132" key="GridCell.Tab.0.bottom/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614811121083" />
+    <state width="1281" height="163" key="GridCell.Tab.0.bottom/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614966044570" />
     <state width="1345" height="244" key="GridCell.Tab.0.bottom/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614702253582" />
     <state width="1281" height="193" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="132" key="GridCell.Tab.0.center" timestamp="1614811121083">
+    <state width="1281" height="163" key="GridCell.Tab.0.center" timestamp="1614966044570">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1281" height="132" key="GridCell.Tab.0.center/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614811121083" />
+    <state width="1281" height="163" key="GridCell.Tab.0.center/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614966044570" />
     <state width="1345" height="244" key="GridCell.Tab.0.center/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614702253582" />
     <state width="1281" height="193" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="132" key="GridCell.Tab.0.left" timestamp="1614811121082">
+    <state width="1281" height="163" key="GridCell.Tab.0.left" timestamp="1614966044570">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1281" height="132" key="GridCell.Tab.0.left/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614811121082" />
+    <state width="1281" height="163" key="GridCell.Tab.0.left/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614966044570" />
     <state width="1345" height="244" key="GridCell.Tab.0.left/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614702253582" />
     <state width="1281" height="193" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="132" key="GridCell.Tab.0.right" timestamp="1614811121083">
+    <state width="1281" height="163" key="GridCell.Tab.0.right" timestamp="1614966044570">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1281" height="132" key="GridCell.Tab.0.right/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614811121083" />
+    <state width="1281" height="163" key="GridCell.Tab.0.right/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614966044570" />
     <state width="1345" height="244" key="GridCell.Tab.0.right/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614702253582" />
     <state width="1281" height="193" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
     <state width="1281" height="139" key="GridCell.Tab.1.bottom" timestamp="1614552090430">
@@ -209,10 +216,18 @@
     </state>
     <state x="211" y="0" key="SettingsEditor/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614350702780" />
     <state x="453" y="-1050" key="SettingsEditor/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614538123832" />
+    <state x="233" y="78" key="Vcs.Push.Dialog.v2" timestamp="1614811147076">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state x="233" y="78" key="Vcs.Push.Dialog.v2/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614811147076" />
     <state x="93" y="93" width="1095" height="504" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1614362377397">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="93" y="93" width="1095" height="504" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614362377397" />
+    <state x="93" y="93" width="1095" height="504" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1614966088800">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state x="93" y="93" width="1095" height="504" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614966088800" />
     <state x="613" y="-1031" width="579" height="801" key="find.popup" timestamp="1614540377178">
       <screen x="231" y="-1050" width="1344" height="840" />
     </state>
