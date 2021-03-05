@@ -324,6 +324,35 @@ void test3() {
     printBlockUsage(memorySize, mallocatedPart, allocatedPart);
 }
 
+// Pridavanie nahodne velkych aj malych blokov do vacsej pamate
+void test4() {
+    srand(time(0));
+    unsigned int memorySize = 100000;
+    char region[memorySize];
+    char *pointers[100000];
+    float allocatedPart = 0;
+    float mallocatedPart = 0;
+    float allocatedMemory = 0;
+    memory_init(&region, memorySize);
+
+    int i = 0;
+    while (allocatedMemory <= memorySize - 8) {
+        allocatedPart++;
+        int randomSize = (rand() % (500 - 8 + 1)) + 8;;
+        if (allocatedMemory + randomSize > memorySize)
+            continue;
+        allocatedMemory += randomSize;
+        pointers[i] = memory_alloc(randomSize);
+        if (pointers[i]) {
+            mallocatedPart++;
+            printf("Alokoval sa blok s velkostou %d na adrese %d\n", randomSize, pointers[i]);
+        }
+        i++;
+    }
+
+    printBlockUsage(memorySize, mallocatedPart, allocatedPart);
+}
+
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
                  int testFragDefrag) {
     srand(time(0));
@@ -384,17 +413,17 @@ void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int m
     printf("Memory size of %d bytes: allocated %.2f%% blocks (%.2f%% bytes).\n", random_memory, result, result_bytes);
 }
 //
-//void test4() {
-//    char region[100000];
-//    char *pointer[13000];
-//    z1_testovac(region, pointer, 8, 24, 50, 100, 1);
-//    z1_testovac(region, pointer, 8, 1000, 10000, 20000, 0);
-//    z1_testovac(region, pointer, 8, 35000, 50000, 99000, 0);
-//}
+void test9() {
+    char region[100000];
+    char *pointer[13000];
+    z1_testovac(region, pointer, 8, 24, 50, 100, 1);
+    z1_testovac(region, pointer, 8, 1000, 10000, 20000, 0);
+    z1_testovac(region, pointer, 8, 35000, 50000, 99000, 0);
+}
 
 // Testovace staci skusat na 1000bitov
 
 int main() {
-    test3();
+    test4();
     return 0;
 }
