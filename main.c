@@ -256,22 +256,22 @@ void printBlockUsage(int memory_size, float mallocated_count, float allocated_co
 
 // Pridavanie rovnkakych blokov malej velkosti
 void test1() {
-    int memory_size = 200;
-    char region[memory_size];
+    int memorySize = 200;
+    char region[memorySize];
     char *pointers[1000];
-    unsigned int allocated_count = 0;
-    unsigned int mallocated_count = 0;
-    memory_init(&region, memory_size);
+    float allocatedPart = 0;
+    float mallocatedPart = 0;
+    memory_init(&region, memorySize);
 
     for (int i = 0; i < 6; ++i) {
-        allocated_count++;
+        allocatedPart++;
         pointers[i] = memory_alloc(16);
         if (pointers[i]) {
-            mallocated_count++;
+            mallocatedPart++;
         }
     }
 
-    printBlockUsage(memory_size, mallocated_count, allocated_count);
+    printBlockUsage(memorySize, mallocatedPart, allocatedPart);
 }
 
 
