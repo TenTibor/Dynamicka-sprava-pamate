@@ -304,15 +304,21 @@ void test3() {
     char *pointers[1000];
     float allocatedPart = 0;
     float mallocatedPart = 0;
+    float allocatedMemory = 0;
     memory_init(&region, memorySize);
 
-    for (int i = 0; i < 11; ++i) {
+    int i = 0;
+    while (allocatedMemory <= memorySize - 500) {
         allocatedPart++;
         int randomSize = (rand() % (5000 - 500 + 1)) + 500;;
+        if (allocatedMemory + randomSize > memorySize)
+            continue;
+        allocatedMemory += randomSize;
         pointers[i] = memory_alloc(randomSize);
         if (pointers[i]) {
             mallocatedPart++;
         }
+        i++;
     }
 
     printBlockUsage(memorySize, mallocatedPart, allocatedPart);
