@@ -200,64 +200,36 @@ int memory_check(void *ptr) {
     return 1;
 }
 
-//void test1() {
-//    int memory_size = 600;
-//    char region[memory_size];
-//    memory_init(&region, memory_size);
-//    printf("header size is %d\n", sizeof(struct BLOCK_HEAD));
-//    printf("starter poinet is %d\n", memoryStart);
 //
-//    char *pointer1 = (char *) memory_alloc(15);
-//    char *pointer2 = (char *) memory_alloc(40);
-////    printf("Pointer 2 is %d\n", pointer2);
-//    char *pointer3 = (char *) memory_alloc(20);
-//    char *pointer4 = (char *) memory_alloc(15);
-//    char *pointer5 = (char *) memory_alloc(15);
-//    char *pointer6 = (char *) memory_alloc(15);
-//    char *pointer7 = (char *) memory_alloc(15);
-//    memory_free(pointer3);
-//    memory_free(pointer2);
-//    memory_free(pointer4);
-//    memory_free(pointer5);
-//    char *pointer8 = (char *) memory_alloc(50);
-//}
+// TESTING
 //
-//void test2() {
-//    int memory_size = 600;
-//    char region[memory_size];
-//    memory_init(&region, memory_size);
-//    char *pointer1 = (char *) memory_alloc(15);
-//    char *pointer2 = (char *) memory_alloc(40);
-//    char *pointer3 = (char *) memory_alloc(20);
-//    char *pointer4 = (char *) memory_alloc(15);
-//    if (memory_check(pointer3)) {
-//        printf("TRUE\n");
-//    } else printf("False\n");
-//
-//    memory_free(pointer3);
-//    if (memory_check(pointer3)) {
-//        printf("TRUE\n");
-//    } else printf("False\n");
-//}
-//
-//void test3() {
-//    int memory_size = 600;
-//    char region[memory_size];
-//    memory_init(&region, memory_size);
-//
-//    char *pointer1 = (char *) memory_alloc(15);
-//    printf("%d\n", pointer1);
-//    memory_free(pointer1);
-//}
-//
+
+void startTestVisually(int name) {
+    printf("=============TEST%d=============\n", name);
+}
+
+void endTestVisually() {
+    printf("\n");
+}
+
 
 void printBlockUsage(int memory_size, float mallocated_count, float allocated_count) {
     float blockUsage = ((float) mallocated_count / (float) allocated_count) * 100;
     printf("Allocated blocks: %.2f%%\n", blockUsage);
+    endTestVisually();
+}
+
+void isPointerValid(void *ptr) {
+    if (memory_check(ptr))
+        printf("Pointer is valid\n");
+    else
+        printf("Pointer is not valid\n");
 }
 
 // Pridavanie rovnkakych blokov malej velkosti
 void test1() {
+    startTestVisually(1);
+    printf("> Adding small blocks with same size\n");
     int memorySize = 200;
     char region[memorySize];
     char *pointers[1000];
@@ -278,8 +250,10 @@ void test1() {
 
 // Pridavanie nahodne velkych blokov malej velkosti
 void test2() {
+    startTestVisually(2);
+    printf("> Adding small blocks with random size\n");
     srand(time(0));
-    int memorySize = 200;
+    int memorySize = 300;
     char region[memorySize];
     char *pointers[1000];
     float allocatedPart = 0;
@@ -300,6 +274,8 @@ void test2() {
 
 // Pridavanie nahodne velkych blokov vacsej velkosti do vacsej pamate
 void test3() {
+    startTestVisually(3);
+    printf("> Adding blocks with random size\n");
     srand(time(0));
     int memorySize = 30000;
     char region[memorySize];
@@ -330,6 +306,8 @@ void test3() {
 
 // Pridavanie a uvolnovanie blokov
 void test4() {
+    startTestVisually(4);
+    printf("> Adding & freeing blocks\n");
     int memorySize = 400;
     char region[memorySize];
     memory_init(&region, memorySize);
@@ -353,16 +331,12 @@ void test4() {
     }
     char *pointer6 = (char *) memory_alloc(25);
     printf("Pointer6 have address %d\n", pointer6);
-}
-
-void isPointerValid(void *ptr) {
-    if (memory_check(ptr))
-        printf("Pointer is valid\n");
-    else
-        printf("Pointer is not valid\n");
+    endTestVisually();
 }
 
 void test5() {
+    startTestVisually(5);
+    printf("> Testing memory checks\n");
     int memorySize = 400;
     char region[memorySize];
     memory_init(&region, memorySize);
@@ -374,80 +348,14 @@ void test5() {
     memory_free(pointer);
     isPointerValid(pointer);
     isPointerValid(pointer + 5);
+    endTestVisually();
 }
-
-void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
-                 int testFragDefrag) {
-    srand(time(0));
-    unsigned int allocated = 0;
-    unsigned int mallocated = 0;
-    unsigned int allocated_count = 0;
-    unsigned int mallocated_count = 0;
-    unsigned int i = 0;
-    int random_memory = 0;
-    int random = 0;
-    memset(region, 0, 100000);
-    random_memory = (rand() % (maxMemory - minMemory + 1)) + minMemory;
-    memory_init(region + 500, random_memory);
-    if (testFragDefrag) {
-        do {
-            pointer[i] = memory_alloc(8);
-            if (pointer[i])
-                i++;
-        } while (pointer[i]);
-        for (int j = 0; j < i; j++) {
-            if (memory_check(pointer[j])) {
-                memory_free(pointer[j]);
-            } else {
-                printf("Error: Wrong memory check.\n");
-            }
-        }
-    }
-    i = 0;
-    while (allocated <= random_memory - minBlock) {
-        random = (rand() % (maxBlock - minBlock + 1)) + minBlock;
-        if (allocated + random > random_memory)
-            continue;
-        allocated += random;
-        allocated_count++;
-        pointer[i] = memory_alloc(random);
-        if (pointer[i]) {
-            i++;
-            mallocated_count++;
-            mallocated += random;
-        }
-    }
-    for (int j = 0; j < i; j++) {
-        if (memory_check(pointer[j])) {
-            memory_free(pointer[j]);
-        } else {
-            printf("Error: Wrong memory check.\n");
-        }
-    }
-    memset(region + 500, 0, random_memory);
-    for (int j = 0; j < 100000; j++) {
-        if (region[j] != 0) {
-            region[j] = 0;
-            printf("Error: Modified memory outside the managed region. index: %d\n", j - 500);
-        }
-    }
-    float result = ((float) mallocated_count / allocated_count) * 100;
-    float result_bytes = ((float) mallocated / allocated) * 100;
-    printf("Memory size of %d bytes: allocated %.2f%% blocks (%.2f%% bytes).\n", random_memory, result, result_bytes);
-}
-
-//
-void test9() {
-    char region[100000];
-    char *pointer[13000];
-    z1_testovac(region, pointer, 8, 24, 50, 100, 1);
-    z1_testovac(region, pointer, 8, 1000, 10000, 20000, 0);
-    z1_testovac(region, pointer, 8, 35000, 50000, 99000, 0);
-}
-
-// Testovace staci skusat na 1000bitov
 
 int main() {
+    test1();
+    test2();
+    test3();
+    test4();
     test5();
     return 0;
 }
