@@ -190,7 +190,10 @@ int memory_check(void *ptr) {
 
     // Check every free block and return 0 if we found that pointer
     while (actual_block != NULL) {
-        if ((char *) actual_block + sizeof(struct BLOCK_HEAD) == ptr)
+        int firstBit = (char *) actual_block + sizeof(struct BLOCK_HEAD);
+        int lastBit = ((char *) actual_block + sizeof(struct BLOCK_HEAD) + (actual_block->size * -1));
+        // If pointer is in free block
+        if (ptr >= firstBit && ptr < lastBit)
             return 0;
         actual_block = actual_block->next;
     }
@@ -367,8 +370,16 @@ void test5() {
 
     char *pointer1 = (char *) memory_alloc(15);
     isPointerValid(pointer1, 1);
+
     char *pointer2 = (char *) memory_alloc(25);
     isPointerValid(pointer2, 2);
+    isPointerValid(pointer2 + 5, 2);
+    isPointerValid(pointer2 - 5, 2);
+
+    memory_free(pointer2);
+    isPointerValid(pointer2, 2);
+    isPointerValid(pointer2 + 5, 2);
+
 }
 
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
