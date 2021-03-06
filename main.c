@@ -355,31 +355,25 @@ void test4() {
     printf("Pointer6 have address %d\n", pointer6);
 }
 
-void isPointerValid(void *ptr, int idName) {
+void isPointerValid(void *ptr) {
     if (memory_check(ptr))
-        printf("Pointer %d is valid\n", idName);
+        printf("Pointer is valid\n");
     else
-        printf("Pointer %d is not valid\n", idName);
+        printf("Pointer is not valid\n");
 }
 
-// Testovanie funkcie memory_check
 void test5() {
     int memorySize = 400;
     char region[memorySize];
     memory_init(&region, memorySize);
 
-    char *pointer1 = (char *) memory_alloc(15);
-    isPointerValid(pointer1, 1);
+    char *pointer = (char *) memory_alloc(25);
+    isPointerValid(pointer);
+    isPointerValid(pointer + 5);
 
-    char *pointer2 = (char *) memory_alloc(25);
-    isPointerValid(pointer2, 2);
-    isPointerValid(pointer2 + 5, 2);
-    isPointerValid(pointer2 - 5, 2);
-
-    memory_free(pointer2);
-    isPointerValid(pointer2, 2);
-    isPointerValid(pointer2 + 5, 2);
-
+    memory_free(pointer);
+    isPointerValid(pointer);
+    isPointerValid(pointer + 5);
 }
 
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
