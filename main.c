@@ -27,7 +27,6 @@ void memory_init(void *ptr, unsigned int size) {
 
 // Find best free block using best fit
 void *find_free_block(int size) {
-
     // Start searching from the beginning of free block list
     struct BLOCK_HEAD *memoryHead = (struct BLOCK_HEAD *) memoryStart;
 
@@ -249,9 +248,9 @@ int memory_check(void *ptr) {
 //}
 //
 
-void printBlockUsage(int memory_size, float mallocated_count, float allocated_count) {
+void printBlockUsage(float mallocated_count, float allocated_count) {
     float blockUsage = ((float) mallocated_count / (float) allocated_count) * 100;
-    printf("Size of memory: %d bytes\nAllocated blocks: %.2f%%\n", memory_size, blockUsage);
+    printf("Allocated blocks: %.2f%%\n", blockUsage);
 }
 
 // Pridavanie rovnkakych blokov malej velkosti
@@ -306,17 +305,19 @@ void test3() {
     float mallocatedPart = 0;
     float allocatedMemory = 0;
     memory_init(&region, memorySize);
-
+    printf("Memory size: %d\n", memorySize);
+    printf("Size of block is between 100 to 1000\n");
     int i = 0;
-    while (allocatedMemory <= memorySize - 500) {
+    while (allocatedMemory <= memorySize - 100) {
         allocatedPart++;
-        int randomSize = (rand() % (5000 - 500 + 1)) + 500;;
+        int randomSize = (rand() % (1000 - 100 + 1)) + 100;;
         if (allocatedMemory + randomSize > memorySize)
             continue;
         allocatedMemory += randomSize;
         pointers[i] = memory_alloc(randomSize);
         if (pointers[i]) {
             mallocatedPart++;
+            printf("Block with size %d was allocated on address %d\n", randomSize, pointers[i]);
         }
         i++;
     }
@@ -324,8 +325,30 @@ void test3() {
     printBlockUsage(memorySize, mallocatedPart, allocatedPart);
 }
 
-// Pridavanie nahodne velkych aj malych blokov do vacsej pamate
+// Pridavanie a uvolnovanie blokov
 void test4() {
+    int memorySize = 200;
+    char region[memorySize];
+    float allocatedPart = 0;
+    float mallocatedPart = 0;
+
+
+    char *pointer1 = (char *) memory_alloc(15);
+    char *pointer2 = (char *) memory_alloc(40);
+    char *pointer3 = (char *) memory_alloc(20);
+    char *pointer4 = (char *) memory_alloc(15);
+    if (memory_check(pointer3)) {
+        printf("Block was allocated with ");
+    } else printf("Block nebol alocovany\n");
+    memory_free(pointer3);
+    if (memory_check(pointer3)) {
+        printf("TRUE\n");
+    } else printf("False\n");
+
+}
+
+// Pridavanie nahodne velkych aj malych blokov do vacsej pamate
+void test8() {
     srand(time(0));
     unsigned int memorySize = 100000;
     char region[memorySize];
@@ -341,13 +364,16 @@ void test4() {
         int randomSize = (rand() % (500 - 8 + 1)) + 8;;
         if (allocatedMemory + randomSize > memorySize)
             continue;
+        printf("%.0f - %d\n", allocatedMemory, randomSize);
         allocatedMemory += randomSize;
         pointers[i] = memory_alloc(randomSize);
         if (pointers[i]) {
             mallocatedPart++;
             printf("Alokoval sa blok s velkostou %d na adrese %d\n", randomSize, pointers[i]);
-        }
-        i++;
+            i++;
+        } else
+            printf("Nealokoval sa blok s velkostou %d na adrese %d\n", randomSize, pointers[i]);
+//        printf("%.0f - %d\n", allocatedMemory, randomSize);
     }
 
     printBlockUsage(memorySize, mallocatedPart, allocatedPart);
@@ -412,6 +438,7 @@ void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int m
     float result_bytes = ((float) mallocated / allocated) * 100;
     printf("Memory size of %d bytes: allocated %.2f%% blocks (%.2f%% bytes).\n", random_memory, result, result_bytes);
 }
+
 //
 void test9() {
     char region[100000];
@@ -424,6 +451,6 @@ void test9() {
 // Testovace staci skusat na 1000bitov
 
 int main() {
-    test4();
+    test3();
     return 0;
 }
