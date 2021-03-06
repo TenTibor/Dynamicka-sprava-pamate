@@ -5,9 +5,9 @@
 
 void *memoryStart;
 
-struct BLOCK_HEAD {
+struct HEAD {
     int size;
-    struct BLOCK_HEAD *next;
+    struct HEAD *next;
 };
 
 void memory_init(void *ptr, unsigned int size) {
@@ -15,12 +15,12 @@ void memory_init(void *ptr, unsigned int size) {
 
     // Find first free block
     memoryStart = ptr;
-    struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) ptr;
-    struct BLOCK_HEAD *firstBlock = (struct BLOCK_HEAD *) ((char *) ptr + sizeof(struct BLOCK_HEAD));
+    struct HEAD *memory_head = (struct HEAD *) ptr;
+    struct HEAD *firstBlock = (struct HEAD *) ((char *) ptr + sizeof(struct HEAD));
     memory_head->next = firstBlock;
 
     // Set first block
-    int freeSize = ((int) size) - sizeof(struct BLOCK_HEAD);
+    int freeSize = ((int) size) - sizeof(struct HEAD);
     firstBlock->size = freeSize * -1; // Set block as free
     firstBlock->next = NULL;
 }
@@ -28,10 +28,10 @@ void memory_init(void *ptr, unsigned int size) {
 // Find best free block using best fit
 void *find_free_block(int size) {
     // Start searching from the beginning of free block list
-    struct BLOCK_HEAD *memoryHead = (struct BLOCK_HEAD *) memoryStart;
+    struct HEAD *memoryHead = (struct HEAD *) memoryStart;
 
-    struct BLOCK_HEAD *bestBlock = memoryHead->next;
-    struct BLOCK_HEAD *actualBlock = memoryHead->next;
+    struct HEAD *bestBlock = memoryHead->next;
+    struct HEAD *actualBlock = memoryHead->next;
     int bestBlockSize = 0;
 
     while (actualBlock != NULL) {
@@ -59,28 +59,28 @@ void *memory_alloc(unsigned int size) {
     unsigned int allocateSize = size;
 
     // Return null if free block does not exist
-    struct BLOCK_HEAD *memoryHead = (struct BLOCK_HEAD *) memoryStart;
+    struct HEAD *memoryHead = (struct HEAD *) memoryStart;
     if (memoryHead->next == NULL) {
         return NULL;
     }
 
     // Size of new block
-    size += sizeof(struct BLOCK_HEAD);
+    size += sizeof(struct HEAD);
 
     // Find free block
-    struct BLOCK_HEAD *foundFreeBlock = (struct BLOCK_HEAD *) find_free_block((int) size);
+    struct HEAD *foundFreeBlock = (struct HEAD *) find_free_block((int) size);
 
     // If free block wasn't found, end this function
     if (foundFreeBlock == NULL)
         return NULL;
 
     // Create new block in free block we found before
-    struct BLOCK_HEAD *newFreeBlock;
+    struct HEAD *newFreeBlock;
     // If free space is bigger then we need, we separate it and create new smaller free block
-    if (size != foundFreeBlock->size * -1 && (foundFreeBlock->size * -1) - size > sizeof(struct BLOCK_HEAD)) {
+    if (size != foundFreeBlock->size * -1 && (foundFreeBlock->size * -1) - size > sizeof(struct HEAD)) {
         void *pointer = foundFreeBlock; // Create pointer to free block
         pointer += size; // Move pointer to end of the block
-        newFreeBlock = ((struct BLOCK_HEAD *) pointer); // Create new free block on end of the block we want to separate
+        newFreeBlock = ((struct HEAD *) pointer); // Create new free block on end of the block we want to separate
 
         // Size of block we separate minus size of block we need to have
         newFreeBlock->size = (foundFreeBlock->size + (int) size);
@@ -90,7 +90,7 @@ void *memory_alloc(unsigned int size) {
             memoryHead->next = newFreeBlock;
         } else {
             // Else search that block
-            struct BLOCK_HEAD *actualBlock = (struct BLOCK_HEAD *) memoryHead->next;
+            struct HEAD *actualBlock = (struct HEAD *) memoryHead->next;
             while (actualBlock != foundFreeBlock && actualBlock->next != NULL) {
                 if (actualBlock != NULL && actualBlock->next == foundFreeBlock) {
                     // When we find prev block of found block, we connect new free block to list of free blocks
@@ -106,7 +106,7 @@ void *memory_alloc(unsigned int size) {
         if (memoryHead->next == foundFreeBlock) {
             memoryHead->next = foundFreeBlock->next;
         } else {
-            struct BLOCK_HEAD *actual_block = (struct BLOCK_HEAD *) memoryHead->next;
+            struct HEAD *actual_block = (struct HEAD *) memoryHead->next;
             while (actual_block != foundFreeBlock && actual_block->next != NULL) {
                 if (actual_block != NULL && actual_block->next == foundFreeBlock) {
                     actual_block->next = foundFreeBlock->next;
@@ -117,7 +117,7 @@ void *memory_alloc(unsigned int size) {
     }
 
     // create new allocated block
-    struct BLOCK_HEAD *allocatedBlock = foundFreeBlock;
+    struct HEAD *allocatedBlock = foundFreeBlock;
     allocatedBlock->size = (int) allocateSize;
     allocatedBlock->next = NULL;
 
@@ -127,7 +127,7 @@ void *memory_alloc(unsigned int size) {
 
 int memory_free(void *valid_ptr) {
     // Find block to free with pointer
-    struct BLOCK_HEAD *blockToFree = (struct BLOCK_HEAD *) ((char *) valid_ptr - sizeof(struct BLOCK_HEAD));
+    struct HEAD *blockToFree = (struct HEAD *) ((char *) valid_ptr - sizeof(struct HEAD));
 
     // Check if block is not already free
     if (blockToFree->size < 0) {
@@ -137,28 +137,28 @@ int memory_free(void *valid_ptr) {
     blockToFree->size *= -1; // Set size to negative number what means, block is now free
 
     // Check if next block is free. If block is free, connect it to this block
-    struct BLOCK_HEAD *blockAfter = (struct BLOCK_HEAD *) ((char *) blockToFree + blockToFree->size * -1 +
-                                                           sizeof(struct BLOCK_HEAD));
+    struct HEAD *blockAfter = (struct HEAD *) ((char *) blockToFree + blockToFree->size * -1 +
+                                               sizeof(struct HEAD));
 
     if (blockAfter->size < 0) { // if block is free
         blockToFree->next = blockAfter->next;
-        blockToFree->size += blockAfter->size - sizeof(struct BLOCK_HEAD);
+        blockToFree->size += blockAfter->size - sizeof(struct HEAD);
 
         // If blockAfter first.. Move blockToFree to first place
-        if (((struct BLOCK_HEAD *) memoryStart)->next == blockAfter) {
-            ((struct BLOCK_HEAD *) memoryStart)->next = blockToFree;
+        if (((struct HEAD *) memoryStart)->next == blockAfter) {
+            ((struct HEAD *) memoryStart)->next = blockToFree;
         }
     }
 
 
     // Check if prev block is free. If block is free, connect it to this block
-    struct BLOCK_HEAD *blockBefore = NULL;
-    struct BLOCK_HEAD *memoryHead = (struct BLOCK_HEAD *) memoryStart;
-    struct BLOCK_HEAD *actualBlock = memoryHead->next;
+    struct HEAD *blockBefore = NULL;
+    struct HEAD *memoryHead = (struct HEAD *) memoryStart;
+    struct HEAD *actualBlock = memoryHead->next;
 
     while (actualBlock != NULL && actualBlock->next != NULL && blockBefore == NULL) {
         // Predict if next blocks pointer is pointer we free now
-        char *predict = ((char *) actualBlock + actualBlock->size * -1 + sizeof(struct BLOCK_HEAD));
+        char *predict = ((char *) actualBlock + actualBlock->size * -1 + sizeof(struct HEAD));
         if (predict == blockToFree) {
             blockBefore = actualBlock;
         }
@@ -167,15 +167,15 @@ int memory_free(void *valid_ptr) {
 
     // If we found block before
     if (blockBefore != NULL && blockBefore->size < 0) {
-        blockBefore->size += blockToFree->size - sizeof(struct BLOCK_HEAD);
+        blockBefore->size += blockToFree->size - sizeof(struct HEAD);
         blockBefore->next = blockToFree->next;
         blockToFree = blockBefore;
     }
 
     // Edit list of free blocks
-    if (((struct BLOCK_HEAD *) memoryStart)->next != blockToFree) {
-        blockToFree->next = ((struct BLOCK_HEAD *) memoryStart)->next;
-        ((struct BLOCK_HEAD *) memoryStart)->next = blockToFree;
+    if (((struct HEAD *) memoryStart)->next != blockToFree) {
+        blockToFree->next = ((struct HEAD *) memoryStart)->next;
+        ((struct HEAD *) memoryStart)->next = blockToFree;
     }
 
     return 0;
@@ -185,13 +185,13 @@ int memory_free(void *valid_ptr) {
 int memory_check(void *ptr) {
     if (ptr == 0) return 0;
 
-    struct BLOCK_HEAD *memory_head = (struct BLOCK_HEAD *) memoryStart;
-    struct BLOCK_HEAD *actual_block = memory_head->next;
+    struct HEAD *memory_head = (struct HEAD *) memoryStart;
+    struct HEAD *actual_block = memory_head->next;
 
     // Check every free block and return 0 if we found that pointer
     while (actual_block != NULL) {
-        int firstBit = (char *) actual_block + sizeof(struct BLOCK_HEAD);
-        int lastBit = ((char *) actual_block + sizeof(struct BLOCK_HEAD) + (actual_block->size * -1));
+        int firstBit = (char *) actual_block + sizeof(struct HEAD);
+        int lastBit = ((char *) actual_block + sizeof(struct HEAD) + (actual_block->size * -1));
         // If pointer is in free block
         if (ptr >= firstBit && ptr < lastBit)
             return 0;
