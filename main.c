@@ -193,11 +193,11 @@ int memory_check(void *ptr) {
         int firstBit = (char *) actualBlock;
         int lastBit = ((char *) actualBlock + sizeof(struct HEAD) + (actualBlock->size * -1));
         // If pointer is in free block
-        if (actualBlock->size != 0 && actualBlock->size < 0 && ptr >= firstBit && ptr < lastBit)
+        if (actualBlock->size < 0 && ptr >= firstBit && ptr < lastBit)
             return 0;
 
         int positiveSize = actualBlock->size;
-        if (positiveSize < 0) positiveSize * -1;
+        if (positiveSize < 0) positiveSize *= -1;
 
         actualBlock = (char *) actualBlock + sizeof(struct HEAD) + positiveSize;
     }
