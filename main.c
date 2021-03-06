@@ -248,7 +248,7 @@ int memory_check(void *ptr) {
 //}
 //
 
-void printBlockUsage(float mallocated_count, float allocated_count) {
+void printBlockUsage(int memory_size, float mallocated_count, float allocated_count) {
     float blockUsage = ((float) mallocated_count / (float) allocated_count) * 100;
     printf("Allocated blocks: %.2f%%\n", blockUsage);
 }
@@ -327,56 +327,48 @@ void test3() {
 
 // Pridavanie a uvolnovanie blokov
 void test4() {
-    int memorySize = 200;
+    int memorySize = 400;
     char region[memorySize];
-    float allocatedPart = 0;
-    float mallocatedPart = 0;
-
+    memory_init(&region, memorySize);
 
     char *pointer1 = (char *) memory_alloc(15);
     char *pointer2 = (char *) memory_alloc(40);
     char *pointer3 = (char *) memory_alloc(20);
-    char *pointer4 = (char *) memory_alloc(15);
-    if (memory_check(pointer3)) {
-        printf("Block was allocated with ");
-    } else printf("Block nebol alocovany\n");
-    memory_free(pointer3);
-    if (memory_check(pointer3)) {
-        printf("TRUE\n");
-    } else printf("False\n");
+    printf("Pointer3 have address %d\n", pointer3);
+    char *pointer4 = (char *) memory_alloc(20);
+    printf("Pointer4 have address %d\n", pointer4);
+    char *pointer5 = (char *) memory_alloc(15);
+    printf("Pointer5 have address %d\n", pointer5);
 
+    if (memory_check(pointer3)) {
+        memory_free(pointer3);
+        if (!memory_check(pointer3)) printf("Block 3 is now free\n");
+    }
+    if (memory_check(pointer4)) {
+        memory_free(pointer4);
+        if (memory_check(pointer4)) printf("Block 4 doesn't exist\n");
+    }
+    char *pointer6 = (char *) memory_alloc(25);
+    printf("Pointer6 have address %d\n", pointer6);
 }
 
-// Pridavanie nahodne velkych aj malych blokov do vacsej pamate
-void test8() {
-    srand(time(0));
-    unsigned int memorySize = 100000;
+void isPointerValid(void *ptr, int idName) {
+    if (memory_check(ptr))
+        printf("Pointer %d is valid", idName);
+    else
+        printf("Pointer %d is not valid", idName);
+}
+
+// Testovanie funkcie memory_check
+void test5() {
+    int memorySize = 400;
     char region[memorySize];
-    char *pointers[100000];
-    float allocatedPart = 0;
-    float mallocatedPart = 0;
-    float allocatedMemory = 0;
     memory_init(&region, memorySize);
 
-    int i = 0;
-    while (allocatedMemory <= memorySize - 8) {
-        allocatedPart++;
-        int randomSize = (rand() % (500 - 8 + 1)) + 8;;
-        if (allocatedMemory + randomSize > memorySize)
-            continue;
-        printf("%.0f - %d\n", allocatedMemory, randomSize);
-        allocatedMemory += randomSize;
-        pointers[i] = memory_alloc(randomSize);
-        if (pointers[i]) {
-            mallocatedPart++;
-            printf("Alokoval sa blok s velkostou %d na adrese %d\n", randomSize, pointers[i]);
-            i++;
-        } else
-            printf("Nealokoval sa blok s velkostou %d na adrese %d\n", randomSize, pointers[i]);
-//        printf("%.0f - %d\n", allocatedMemory, randomSize);
-    }
-
-    printBlockUsage(memorySize, mallocatedPart, allocatedPart);
+    char *pointer1 = (char *) memory_alloc(15);
+    isPointerValid(pointer1, 1);
+    char *pointer2 = (char *) memory_alloc(25);
+    isPointerValid(pointer2, 2);
 }
 
 void z1_testovac(char *region, char **pointer, int minBlock, int maxBlock, int minMemory, int maxMemory,
@@ -451,6 +443,6 @@ void test9() {
 // Testovace staci skusat na 1000bitov
 
 int main() {
-    test3();
+    test5();
     return 0;
 }
