@@ -354,9 +354,9 @@ void test4() {
 
 void isPointerValid(void *ptr, int idName) {
     if (memory_check(ptr))
-        printf("Pointer %d is valid", idName);
+        printf("Pointer %d is valid\n", idName);
     else
-        printf("Pointer %d is not valid", idName);
+        printf("Pointer %d is not valid\n", idName);
 }
 
 // Testovanie funkcie memory_check
