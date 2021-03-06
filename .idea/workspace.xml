@@ -29,7 +29,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0648cfe-21a8-41b2-8658-5bed2a509f4b" name="Default Changelist" comment="Test visually update">
+    <list default="true" id="d0648cfe-21a8-41b2-8658-5bed2a509f4b" name="Default Changelist" comment="Renamed head struct">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -102,7 +102,7 @@
       <workItem from="1614895458574" duration="95000" />
       <workItem from="1614962061502" duration="4338000" />
       <workItem from="1614978354559" duration="30850000" />
-      <workItem from="1615066122562" duration="677000" />
+      <workItem from="1615066122562" duration="4750000" />
     </task>
     <task id="LOCAL-00001" summary="Removed spacing and trash comments">
       <created>1614803325979</created>
@@ -237,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615064830393</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Renamed head struct">
+      <created>1615067759449</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1615067759449</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,90 +282,7 @@
     <MESSAGE value="Test5, memory_check" />
     <MESSAGE value="Test5, memory_check, edited" />
     <MESSAGE value="Test visually update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test visually update" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="520" y="243" key="Github.ShareDialog" timestamp="1614550943024">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="520" y="243" key="Github.ShareDialog/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614550943024" />
-    <state x="399" y="43" key="Github.UntrackedFilesDialog" timestamp="1614550955631">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="399" y="43" key="Github.UntrackedFilesDialog/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614550955631" />
-    <state width="1281" height="474" key="GridCell.Tab.0.bottom" timestamp="1615065808929">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1281" height="474" key="GridCell.Tab.0.bottom/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1615065808929" />
-    <state width="1345" height="187" key="GridCell.Tab.0.bottom/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1615059612583" />
-    <state width="1281" height="193" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="474" key="GridCell.Tab.0.center" timestamp="1615065808929">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1281" height="474" key="GridCell.Tab.0.center/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1615065808929" />
-    <state width="1345" height="187" key="GridCell.Tab.0.center/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1615059612583" />
-    <state width="1281" height="193" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="474" key="GridCell.Tab.0.left" timestamp="1615065808928">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1281" height="474" key="GridCell.Tab.0.left/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1615065808928" />
-    <state width="1345" height="187" key="GridCell.Tab.0.left/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1615059612583" />
-    <state width="1281" height="193" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="474" key="GridCell.Tab.0.right" timestamp="1615065808929">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1281" height="474" key="GridCell.Tab.0.right/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1615065808929" />
-    <state width="1345" height="187" key="GridCell.Tab.0.right/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1615059612583" />
-    <state width="1281" height="193" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1614513245948" />
-    <state width="1281" height="139" key="GridCell.Tab.1.bottom" timestamp="1614552090430">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1281" height="139" key="GridCell.Tab.1.bottom/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614552090430" />
-    <state width="1281" height="193" key="GridCell.Tab.1.bottom/0.0.1280.689@0.0.1280.689" timestamp="1614513245949" />
-    <state width="1281" height="139" key="GridCell.Tab.1.center" timestamp="1614552090430">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1281" height="139" key="GridCell.Tab.1.center/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614552090430" />
-    <state width="1281" height="193" key="GridCell.Tab.1.center/0.0.1280.689@0.0.1280.689" timestamp="1614513245949" />
-    <state width="1281" height="139" key="GridCell.Tab.1.left" timestamp="1614552090430">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1281" height="139" key="GridCell.Tab.1.left/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614552090430" />
-    <state width="1281" height="193" key="GridCell.Tab.1.left/0.0.1280.689@0.0.1280.689" timestamp="1614513245949" />
-    <state width="1281" height="139" key="GridCell.Tab.1.right" timestamp="1614552090430">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1281" height="139" key="GridCell.Tab.1.right/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614552090430" />
-    <state width="1281" height="193" key="GridCell.Tab.1.right/0.0.1280.689@0.0.1280.689" timestamp="1614513245949" />
-    <state x="453" y="-1050" key="SettingsEditor" timestamp="1614538123832">
-      <screen x="231" y="-1050" width="1344" height="840" />
-    </state>
-    <state x="211" y="0" key="SettingsEditor/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614350702780" />
-    <state x="453" y="-1050" key="SettingsEditor/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614538123832" />
-    <state x="233" y="78" key="Vcs.Push.Dialog.v2" timestamp="1615064837946">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="233" y="78" key="Vcs.Push.Dialog.v2/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1615064837946" />
-    <state x="93" y="93" width="1095" height="504" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1614362377397">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="93" y="93" width="1095" height="504" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614362377397" />
-    <state x="93" y="93" width="1095" height="504" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1615048235620">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="93" y="93" width="1095" height="504" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1615048235620" />
-    <state x="613" y="-1031" width="579" height="801" key="find.popup" timestamp="1614540377178">
-      <screen x="231" y="-1050" width="1344" height="840" />
-    </state>
-    <state x="613" y="-1031" width="579" height="801" key="find.popup/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614540377178" />
-    <state x="297" y="153" key="run.anything.popup" timestamp="1614429574272">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="297" y="153" key="run.anything.popup/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614429574272" />
-    <state x="549" y="-1038" width="706" height="827" key="search.everywhere.popup" timestamp="1614538166112">
-      <screen x="231" y="-1050" width="1344" height="840" />
-    </state>
-    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup/0.0.1280.689/231.-1050.1344.840@0.0.1280.689" timestamp="1614359758917" />
-    <state x="549" y="-1038" width="706" height="827" key="search.everywhere.popup/0.0.1280.689/231.-1050.1344.840@231.-1050.1344.840" timestamp="1614538166112" />
+    <MESSAGE value="Renamed head struct" />
+    <option name="LAST_COMMIT_MESSAGE" value="Renamed head struct" />
   </component>
 </project>
