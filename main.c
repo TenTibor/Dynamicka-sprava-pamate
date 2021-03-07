@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
 #include <stdlib.h>
+#include <time.h> // for random numbers
 
 void *memoryStart;
 
@@ -28,7 +28,6 @@ void memory_init(void *ptr, unsigned int size) {
 void *findBlock(int size) {
     // Start searching from the beginning of free block list
     struct HEAD *memoryHead = (struct HEAD *) memoryStart;
-
     struct HEAD *bestBlock = memoryHead->next;
     struct HEAD *actualBlock = memoryHead->next;
     int bestBlockSize = 0;
@@ -136,15 +135,14 @@ int memory_free(void *valid_ptr) {
 
     blockToFree->size *= -1; // Set size to negative number what means, block is now free
 
-    // Check if next block is free. If block is free, connect it to this block
-    struct HEAD *blockAfter = (struct HEAD *) ((char *) blockToFree + blockToFree->size * -1 +
-                                               sizeof(struct HEAD));
+    // Check if next block is free. If block is free, merge it to this block
+    struct HEAD *blockAfter = (struct HEAD *) ((char *) blockToFree + blockToFree->size * -1 + sizeof(struct HEAD));
 
     if (blockAfter->size < 0) { // if block is free
         blockToFree->next = blockAfter->next;
         blockToFree->size += blockAfter->size - sizeof(struct HEAD);
 
-        // If blockAfter first.. Move blockToFree to first place
+        // If blockAfter is first in memory.. We move blockToFree to beginning of memory
         if (((struct HEAD *) memoryStart)->next == blockAfter) {
             ((struct HEAD *) memoryStart)->next = blockToFree;
         }
@@ -199,7 +197,7 @@ int memory_check(void *ptr) {
         int positiveSize = actualBlock->size;
         if (positiveSize < 0) positiveSize *= -1;
 
-        actualBlock = (char *) actualBlock + sizeof(struct HEAD) + positiveSize;
+        actualBlock = (struct HEAD *) ((char *) actualBlock + sizeof(struct HEAD) + positiveSize);
     }
     return 1;
 }
@@ -216,7 +214,6 @@ void endTestVisually() {
     printf("\n");
 }
 
-
 void printBlockUsage(int memory_size, float mallocated_count, float allocated_count) {
     float blockUsage = ((float) mallocated_count / (float) allocated_count) * 100;
     printf("Allocated blocks: %.2f%%\n", blockUsage);
@@ -229,6 +226,7 @@ void isPointerValid(void *ptr) {
     else
         printf("Pointer is not valid\n");
 }
+
 
 // Pridavanie rovnkakych blokov malej velkosti
 void test1() {
