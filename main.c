@@ -214,9 +214,11 @@ void endTestVisually() {
     printf("\n");
 }
 
-void printBlockUsage(int memory_size, float mallocated_count, float allocated_count) {
-    float blockUsage = ((float) mallocated_count / (float) allocated_count) * 100;
+void printBlockUsage(int memorySize, float mallocatedCount, float allocatedCount, float allocatedSize) {
+    float blockUsage = ((float) mallocatedCount / (float) allocatedCount) * 100;
+    float memoryUsage = ((float) allocatedSize / (float) memorySize) * 100;
     printf("Allocated blocks: %.2f%%\n", blockUsage);
+    printf("Effektivnost: %.2f%%\n", memoryUsage);
     endTestVisually();
 }
 
@@ -236,18 +238,20 @@ void test1() {
     char region[memorySize];
     char *pointers[1000];
     float allocatedPart = 0;
+    float allocatedSize = 0;
     float mallocatedPart = 0;
     memory_init(&region, memorySize);
 
     for (int i = 0; i < 6; ++i) {
         allocatedPart++;
         pointers[i] = memory_alloc(16);
+        allocatedSize += 16;
         if (pointers[i]) {
             mallocatedPart++;
         }
     }
 
-    printBlockUsage(memorySize, mallocatedPart, allocatedPart);
+    printBlockUsage(memorySize, mallocatedPart, allocatedPart, allocatedSize);
 }
 
 // Pridavanie nahodne velkych blokov malej velkosti
@@ -258,6 +262,7 @@ void test2() {
     int memorySize = 300;
     char region[memorySize];
     char *pointers[1000];
+    float allocatedSize = 0;
     float allocatedPart = 0;
     float mallocatedPart = 0;
     memory_init(&region, memorySize);
@@ -266,12 +271,13 @@ void test2() {
         allocatedPart++;
         int randomSize = (rand() % (24 - 8 + 1)) + 8;;
         pointers[i] = memory_alloc(randomSize);
+        allocatedSize += randomSize;
         if (pointers[i]) {
             mallocatedPart++;
         }
     }
 
-    printBlockUsage(memorySize, mallocatedPart, allocatedPart);
+    printBlockUsage(memorySize, mallocatedPart, allocatedPart, allocatedSize);
 }
 
 // Pridavanie nahodne velkych blokov vacsej velkosti do vacsej pamate
@@ -283,6 +289,7 @@ void test3() {
     char region[memorySize];
     char *pointers[1000];
     float allocatedPart = 0;
+    float allocatedSize = 0;
     float mallocatedPart = 0;
     float allocatedMemory = 0;
     memory_init(&region, memorySize);
@@ -296,6 +303,7 @@ void test3() {
             continue;
         allocatedMemory += randomSize;
         pointers[i] = memory_alloc(randomSize);
+        allocatedSize += randomSize;
         if (pointers[i]) {
             mallocatedPart++;
             printf("Block with size %d was allocated on address %d\n", randomSize, pointers[i]);
@@ -303,7 +311,7 @@ void test3() {
         i++;
     }
 
-    printBlockUsage(memorySize, mallocatedPart, allocatedPart);
+    printBlockUsage(memorySize, mallocatedPart, allocatedPart, allocatedSize);
 }
 
 // Pridavanie a uvolnovanie blokov

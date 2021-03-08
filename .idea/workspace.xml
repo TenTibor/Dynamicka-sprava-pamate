@@ -29,8 +29,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0648cfe-21a8-41b2-8658-5bed2a509f4b" name="Default Changelist" comment="memory check, really fixed">
+    <list default="true" id="d0648cfe-21a8-41b2-8658-5bed2a509f4b" name="Default Changelist" comment="Dokumentacia">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dokumentacia.docx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,6 +58,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -71,9 +73,9 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -101,7 +103,8 @@
       <workItem from="1614962061502" duration="4338000" />
       <workItem from="1614978354559" duration="30850000" />
       <workItem from="1615066122562" duration="6239000" />
-      <workItem from="1615109904060" duration="599000" />
+      <workItem from="1615109904060" duration="3047000" />
+      <workItem from="1615191940224" duration="494000" />
     </task>
     <task id="LOCAL-00001" summary="Removed spacing and trash comments">
       <created>1614803325979</created>
@@ -264,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615073582062</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Dokumentacia">
+      <created>1615110631188</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1615110631188</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,6 +293,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Removed spacing and trash comments" />
     <MESSAGE value="Removed main_head" />
     <MESSAGE value="Test2, memory_init, find_free_block" />
@@ -306,6 +317,7 @@
     <MESSAGE value="memorz check update" />
     <MESSAGE value="memory check, fixed names" />
     <MESSAGE value="memory check, really fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="memory check, really fixed" />
+    <MESSAGE value="Dokumentacia" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dokumentacia" />
   </component>
 </project>
